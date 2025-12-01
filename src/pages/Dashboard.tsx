@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Navbar } from '../sections/Navbar';
 import { Footer } from '../sections/Footer';
@@ -7,15 +8,21 @@ import { CheckCircle2, Heart, Zap } from 'lucide-react';
 
 export const Dashboard = () => {
   const { user } = useAuth();
-
-  const tasks = [
+  const [tasks, setTasks] = useState([
     { id: 1, title: 'Morning stretch', completed: true },
     { id: 2, title: 'Drink water', completed: true },
     { id: 3, title: 'Take a nap', completed: false },
     { id: 4, title: 'Play with yarn', completed: false },
-  ];
+  ]);
+  const [selectedMood, setSelectedMood] = useState('😸');
 
   const moods = ['😺', '😸', '😻', '😼', '😽'];
+
+  const toggleTask = (id: number) => {
+    setTasks(tasks.map(task => 
+      task.id === id ? { ...task, completed: !task.completed } : task
+    ));
+  };
 
   return (
     <div className="min-h-screen bg-kitty-cream dark:bg-gray-900">
@@ -106,13 +113,14 @@ export const Dashboard = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 + i * 0.1 }}
-                    className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
+                    onClick={() => toggleTask(task.id)}
+                    className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:scale-[1.02] ${
                       task.completed
                         ? 'border-green-300 bg-green-50 dark:bg-green-900/20'
                         : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700/50'
                     }`}
                   >
-                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
                       task.completed ? 'border-green-500 bg-green-500' : 'border-gray-300 dark:border-gray-600'
                     }`}>
                       {task.completed && <CheckCircle2 size={16} className="text-white" />}
@@ -145,9 +153,12 @@ export const Dashboard = () => {
                 {moods.map((mood, i) => (
                   <motion.button
                     key={i}
+                    onClick={() => setSelectedMood(mood)}
                     whileHover={{ scale: 1.2, rotate: 10 }}
                     whileTap={{ scale: 0.9 }}
-                    className="text-5xl p-4 rounded-2xl hover:bg-kitty-cream dark:hover:bg-gray-700 transition-colors"
+                    className={`text-5xl p-4 rounded-2xl hover:bg-kitty-cream dark:hover:bg-gray-700 transition-colors ${
+                      selectedMood === mood ? 'bg-kitty-pink/20 dark:bg-kitty-pink/30 ring-2 ring-kitty-pink' : ''
+                    }`}
                   >
                     {mood}
                   </motion.button>

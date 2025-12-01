@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
@@ -10,45 +7,10 @@ import { Card } from '../components/Card';
 import { Github } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
-const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
-
-const signupSchema = loginSchema.extend({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-type SignupFormData = z.infer<typeof signupSchema>;
-
 export const AuthSection: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const loginForm = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-  });
-
-  const signupForm = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
-  });
-
-  const currentForm = isLogin ? loginForm : signupForm;
-
-  const onSubmit = async (data: LoginFormData | SignupFormData) => {
-    try {
-      await login(data.email, data.password);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-  };
 
   return (
     <section className="py-20 px-4 bg-white dark:bg-gray-900 relative overflow-hidden">
@@ -65,10 +27,7 @@ export const AuthSection: React.FC = () => {
         <Card className="p-8 dark:bg-gray-800">
           <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-700 rounded-xl mb-8">
             <button
-              onClick={() => {
-                setIsLogin(true);
-                currentForm.reset();
-              }}
+              onClick={() => setIsLogin(true)}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${
                 isLogin 
                   ? 'bg-white dark:bg-gray-600 shadow-sm text-kitty-pink' 
@@ -78,10 +37,7 @@ export const AuthSection: React.FC = () => {
               Log In
             </button>
             <button
-              onClick={() => {
-                setIsLogin(false);
-                currentForm.reset();
-              }}
+              onClick={() => setIsLogin(false)}
               className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${
                 !isLogin 
                   ? 'bg-white dark:bg-gray-600 shadow-sm text-kitty-pink' 
@@ -92,7 +48,17 @@ export const AuthSection: React.FC = () => {
             </button>
           </div>
 
-          <form onSubmit={currentForm.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+            
+            if (email && password) {
+              login(email, password);
+              navigate('/dashboard');
+            }
+          }} className="space-y-4">
             <AnimatePresence mode="wait">
               {!isLogin && (
                 <motion.div
@@ -104,8 +70,7 @@ export const AuthSection: React.FC = () => {
                   <Input
                     placeholder="Your Name"
                     type="text"
-                    {...signupForm.register('name')}
-                    error={signupForm.formState.errors.name?.message}
+                    name="name"
                   />
                 </motion.div>
               )}
@@ -114,11 +79,15 @@ export const AuthSection: React.FC = () => {
             <Input
               placeholder="name@example.com"
               type="email"
+              name="email"
+              required
             />
             
             <Input
               placeholder="••••••••"
               type="password"
+              name="password"
+              required
             />
 
             <AnimatePresence mode="wait">
@@ -132,8 +101,7 @@ export const AuthSection: React.FC = () => {
                   <Input
                     placeholder="Confirm Password"
                     type="password"
-                    {...signupForm.register('confirmPassword')}
-                    error={signupForm.formState.errors.confirmPassword?.message}
+                    name="confirmPassword"
                   />
                 </motion.div>
               )}
