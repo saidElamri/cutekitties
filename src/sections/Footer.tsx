@@ -1,24 +1,37 @@
 import React from 'react';
-import { Cat, Twitter, Instagram, Facebook, Heart } from 'lucide-react';
+import { Cat, Twitter, Instagram, Facebook, Heart, Github } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-kitty-cream pt-20 pb-10 px-4">
+    <footer className="bg-gradient-to-b from-kitty-cream to-white dark:from-gray-900 dark:to-gray-800 pt-24 pb-12 px-4 border-t border-gray-200 dark:border-gray-700">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="bg-kitty-pink p-2 rounded-xl text-white">
-                <Cat size={24} />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-gradient-to-br from-kitty-pink to-purple-500 p-3 rounded-2xl text-white shadow-lg">
+                <Cat size={28} />
               </div>
-              <span className="text-2xl font-bold text-kitty-text">Purrfect<span className="text-kitty-pink">App</span></span>
+              <span className="text-3xl font-bold">
+                <span className="bg-gradient-to-r from-kitty-pink to-purple-500 bg-clip-text text-transparent">Purrfect</span>
+                <span className="text-gray-800 dark:text-white">App</span>
+              </span>
             </div>
-            <p className="text-gray-500 max-w-sm mb-6">
+            <p className="text-gray-600 dark:text-gray-300 max-w-sm mb-8 text-lg leading-relaxed">
               Making the world a cuter place, one pixel at a time. Join us on our mission to spread joy and productivity.
             </p>
-            <div className="flex gap-4">
-              {[Twitter, Instagram, Facebook].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-kitty-text hover:bg-kitty-pink hover:text-white transition-all shadow-sm hover:shadow-md">
+            <div className="flex gap-3">
+              {[
+                { Icon: Twitter, label: 'Twitter' },
+                { Icon: Instagram, label: 'Instagram' },
+                { Icon: Github, label: 'GitHub' },
+                { Icon: Facebook, label: 'Facebook' }
+              ].map(({ Icon, label }, i) => (
+                <a 
+                  key={i} 
+                  href="#" 
+                  aria-label={label}
+                  className="w-12 h-12 rounded-xl bg-white dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-br hover:from-kitty-pink hover:to-purple-500 hover:text-white transition-all shadow-md hover:shadow-xl hover:scale-110"
+                >
                   <Icon size={20} />
                 </a>
               ))}
@@ -26,32 +39,38 @@ export const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="font-bold text-kitty-text mb-6">Product</h4>
-            <ul className="space-y-4">
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Features</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Download</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Changelog</a></li>
+            <h4 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">Product</h4>
+            <ul className="space-y-3">
+              {['Features', 'Pricing', 'Download', 'Changelog'].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block">
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold text-kitty-text mb-6">Company</h4>
-            <ul className="space-y-4">
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Careers</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Blog</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-kitty-pink transition-colors">Contact</a></li>
+            <h4 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">Company</h4>
+            <ul className="space-y-3">
+              {['About Us', 'Careers', 'Blog', 'Contact'].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block">
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-kitty-pink/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">
             © 2024 PurrfectApp. All rights reserved.
           </p>
-          <p className="text-gray-400 text-sm flex items-center gap-1">
-            Made with <Heart size={14} className="text-red-400 fill-red-400" /> and <span className="font-bold text-kitty-pink">Purrs</span>
+          <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-2 font-medium">
+            Made with <Heart size={16} className="text-red-500 fill-red-500 animate-pulse" /> and <span className="font-bold bg-gradient-to-r from-kitty-pink to-purple-500 bg-clip-text text-transparent">Purrs</span>
           </p>
         </div>
       </div>

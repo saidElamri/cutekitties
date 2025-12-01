@@ -17,19 +17,23 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-kitty-pink/30 text-kitty-pink font-bold text-sm mb-6 shadow-sm">
-              <Sparkles size={16} />
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-kitty-pink/10 to-purple-500/10 border border-kitty-pink/30 text-kitty-pink font-bold text-sm mb-6 shadow-sm">
+              <Sparkles size={16} className="animate-pulse" />
               The #1 App for Cat Lovers
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold text-kitty-text leading-tight mb-6">
-              Unleash Your Inner <span className="text-kitty-pink relative">
+            <h1 className="text-6xl md:text-8xl font-extrabold leading-tight mb-8">
+              <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent">
+                Unleash Your Inner
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-kitty-pink via-purple-500 to-pink-600 bg-clip-text text-transparent relative inline-block mt-2">
                 Purr-tential
-                <svg className="absolute w-full h-3 -bottom-1 left-0 text-kitty-mint -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
+                <svg className="absolute w-full h-4 -bottom-2 left-0 text-kitty-mint/30 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="10" fill="none" />
                 </svg>
               </span>
             </h1>
-            <p className="text-xl text-gray-500 max-w-lg leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed font-medium">
               Join a community where productivity meets cuteness. Organize your life with the help of our adorable digital mascots.
             </p>
           </motion.div>
@@ -40,11 +44,11 @@ export const HeroSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap gap-4"
           >
-            <Button size="lg" className="group">
+            <Button size="lg" className="group shadow-lg shadow-kitty-pink/30 hover:shadow-xl hover:shadow-kitty-pink/40 hover:scale-105 transition-all">
               Start for Free 
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
             </Button>
-            <Button variant="secondary" size="lg">Watch Demo</Button>
+            <Button variant="secondary" size="lg" className="hover:scale-105 transition-all shadow-md">Watch Demo</Button>
           </motion.div>
           
           <div className="flex items-center gap-4 text-sm text-gray-400 font-medium">
