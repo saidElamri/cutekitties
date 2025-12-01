@@ -47,23 +47,28 @@ export const Footer: React.FC = () => {
                 { name: 'Features', url: '#features' },
                 { name: 'Pricing', url: '#pricing' },
                 { name: 'Download', url: '#auth-section' },
-                { name: 'Changelog', url: '#' }
+                { name: 'Changelog', url: '/changelog' }
               ].map((item) => (
                 <li key={item.name}>
-                  <a 
-                    href={item.url} 
-                    className={`text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block ${item.url === '#' ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={(e) => {
-                      if (item.url === '#') {
-                        e.preventDefault();
-                      } else if (item.url.startsWith('#')) {
+                  {item.url.startsWith('#') ? (
+                    <a 
+                      href={item.url}
+                      className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block"
+                      onClick={(e) => {
                         e.preventDefault();
                         document.querySelector(item.url)?.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                  >
-                    {item.name}
-                  </a>
+                      }}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <a 
+                      href={item.url}
+                      className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block"
+                    >
+                      {item.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -73,26 +78,31 @@ export const Footer: React.FC = () => {
             <h4 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">Company</h4>
             <ul className="space-y-3">
               {[
-                { name: 'About Us', url: '#' },
-                { name: 'Careers', url: '#' },
-                { name: 'Blog', url: '#' },
+                { name: 'About Us', url: '/about' },
+                { name: 'Careers', url: '/careers' },
+                { name: 'Blog', url: '/blog' },
                 { name: 'Contact', url: '#auth-section' }
               ].map((item) => (
                 <li key={item.name}>
-                  <a 
-                    href={item.url}
-                    className={`text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block ${item.url === '#' ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    onClick={(e) => {
-                      if (item.url === '#') {
-                        e.preventDefault();
-                      } else if (item.url.startsWith('#')) {
+                  {item.url.startsWith('#') ? (
+                    <a 
+                      href={item.url}
+                      className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block"
+                      onClick={(e) => {
                         e.preventDefault();
                         document.querySelector(item.url)?.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                  >
-                    {item.name}
-                  </a>
+                      }}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <a 
+                      href={item.url}
+                      className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block"
+                    >
+                      {item.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
