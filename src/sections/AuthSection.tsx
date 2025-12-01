@@ -97,6 +97,7 @@ export const AuthSection: React.FC = () => {
               type="password"
               name="password"
               required
+              minLength={6}
             />
 
             <AnimatePresence mode="wait">
@@ -111,6 +112,7 @@ export const AuthSection: React.FC = () => {
                     placeholder="Confirm Password"
                     type="password"
                     name="confirmPassword"
+                    minLength={6}
                   />
                 </motion.div>
               )}
