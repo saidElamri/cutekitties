@@ -13,7 +13,7 @@ export const AuthSection: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-gray-900 relative overflow-hidden">
+    <section id="auth-section" className="py-20 px-4 bg-white dark:bg-gray-900 relative overflow-hidden">
       <div className="max-w-md mx-auto relative z-10">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-kitty-text dark:text-white mb-2">

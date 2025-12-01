@@ -21,14 +21,16 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex gap-3">
               {[
-                { Icon: Twitter, label: 'Twitter' },
-                { Icon: Instagram, label: 'Instagram' },
-                { Icon: Github, label: 'GitHub' },
-                { Icon: Facebook, label: 'Facebook' }
-              ].map(({ Icon, label }, i) => (
+                { Icon: Twitter, label: 'Twitter', url: 'https://twitter.com' },
+                { Icon: Instagram, label: 'Instagram', url: 'https://instagram.com' },
+                { Icon: Github, label: 'GitHub', url: 'https://github.com/saidElamri/cutekitties' },
+                { Icon: Facebook, label: 'Facebook', url: 'https://facebook.com' }
+              ].map(({ Icon, label, url }, i) => (
                 <a 
                   key={i} 
-                  href="#" 
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="w-12 h-12 rounded-xl bg-white dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gradient-to-br hover:from-kitty-pink hover:to-purple-500 hover:text-white transition-all shadow-md hover:shadow-xl hover:scale-110"
                 >
@@ -41,10 +43,26 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">Product</h4>
             <ul className="space-y-3">
-              {['Features', 'Pricing', 'Download', 'Changelog'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block">
-                    {item}
+              {[
+                { name: 'Features', url: '#features' },
+                { name: 'Pricing', url: '#pricing' },
+                { name: 'Download', url: '#auth-section' },
+                { name: 'Changelog', url: '#' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <a 
+                    href={item.url} 
+                    className={`text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block ${item.url === '#' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={(e) => {
+                      if (item.url === '#') {
+                        e.preventDefault();
+                      } else if (item.url.startsWith('#')) {
+                        e.preventDefault();
+                        document.querySelector(item.url)?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    {item.name}
                   </a>
                 </li>
               ))}
@@ -54,10 +72,26 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">Company</h4>
             <ul className="space-y-3">
-              {['About Us', 'Careers', 'Blog', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block">
-                    {item}
+              {[
+                { name: 'About Us', url: '#' },
+                { name: 'Careers', url: '#' },
+                { name: 'Blog', url: '#' },
+                { name: 'Contact', url: '#auth-section' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <a 
+                    href={item.url}
+                    className={`text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink transition-colors font-medium hover:translate-x-1 inline-block ${item.url === '#' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={(e) => {
+                      if (item.url === '#') {
+                        e.preventDefault();
+                      } else if (item.url.startsWith('#')) {
+                        e.preventDefault();
+                        document.querySelector(item.url)?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    {item.name}
                   </a>
                 </li>
               ))}

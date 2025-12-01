@@ -44,11 +44,26 @@ export const HeroSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap gap-4"
           >
-            <Button size="lg" className="group shadow-lg shadow-kitty-pink/30 hover:shadow-xl hover:shadow-kitty-pink/40 hover:scale-105 transition-all">
+            <Button 
+              size="lg" 
+              className="group shadow-lg shadow-kitty-pink/30 hover:shadow-xl hover:shadow-kitty-pink/40 hover:scale-105 transition-all"
+              onClick={() => {
+                document.querySelector('#auth-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Start for Free 
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
             </Button>
-            <Button variant="secondary" size="lg" className="hover:scale-105 transition-all shadow-md">Watch Demo</Button>
+            <Button 
+              variant="secondary" 
+              size="lg" 
+              className="hover:scale-105 transition-all shadow-md"
+              onClick={() => {
+                window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+              }}
+            >
+              Watch Demo
+            </Button>
           </motion.div>
           
           <div className="flex items-center gap-4 text-sm text-gray-400 font-medium">
