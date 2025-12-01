@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Card } from '../components/Card';
-import { Mail, Lock, User, Github } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 export const AuthSection: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);

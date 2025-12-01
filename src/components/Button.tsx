@@ -32,7 +32,9 @@ export const Button: React.FC<ButtonProps> = ({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-      {...props}
+      disabled={props.disabled}
+      onClick={props.onClick}
+      type={props.type}
     >
       {children}
     </motion.button>
