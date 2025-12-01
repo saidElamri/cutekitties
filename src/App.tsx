@@ -13,6 +13,7 @@ import { ChangelogPage } from './pages/ChangelogPage';
 import { FeaturesPage } from './pages/FeaturesPage';
 import { PricingPage } from './pages/PricingPage';
 import { DownloadPage } from './pages/DownloadPage';
+import { ContactPage } from './pages/ContactPage';
 import { CursorKitten } from './components/CursorKitten';
 import { FloatingPaws } from './components/FloatingPaws';
 
@@ -53,6 +54,7 @@ function AppRoutes() {
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/download" element={<DownloadPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </AnimatePresence>
   );

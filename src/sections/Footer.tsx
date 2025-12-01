@@ -81,7 +81,7 @@ export const Footer: React.FC = () => {
                 { name: 'About Us', url: '/about' },
                 { name: 'Careers', url: '/careers' },
                 { name: 'Blog', url: '/blog' },
-                { name: 'Contact', url: '#auth-section' }
+                { name: 'Contact', url: '/contact' }
               ].map((item) => (
                 <li key={item.name}>
                   {item.url.startsWith('#') ? (
@@ -111,7 +111,7 @@ export const Footer: React.FC = () => {
 
         <div className="border-t border-gray-200 dark:border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">
-            © 2024 PurrfectApp. All rights reserved.
+            © 2025 PurrfectApp. All rights reserved.
           </p>
           <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-2 font-medium">
             Made with <Heart size={16} className="text-red-500 fill-red-500 animate-pulse" /> and <span className="font-bold bg-gradient-to-r from-kitty-pink to-purple-500 bg-clip-text text-transparent">Purrs</span>
