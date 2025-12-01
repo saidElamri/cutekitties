@@ -41,6 +41,13 @@ A modern, scalable React application themed around adorable cats. Features multi
 - Mock login (ready for API integration)
 - Persistent sessions
 
+## 🚀 New Features
+
+- **Analytics Chart**: Visual activity trend chart added to the Profile page.
+- **Smart Scheduling**: "Magic Suggest" button on the Dashboard recommends tasks.
+- **PWA Install**: Functional install button on the Download page for PWA installation.
+- **Task Sharing**: Share tasks via native share dialog or copy to clipboard from the Dashboard.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
