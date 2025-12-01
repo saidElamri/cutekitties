@@ -44,9 +44,9 @@ export const Footer: React.FC = () => {
             <h4 className="font-bold text-gray-900 dark:text-white mb-6 text-lg">Product</h4>
             <ul className="space-y-3">
               {[
-                { name: 'Features', url: '#features' },
-                { name: 'Pricing', url: '#pricing' },
-                { name: 'Download', url: '#auth-section' },
+                { name: 'Features', url: '/features' },
+                { name: 'Pricing', url: '/pricing' },
+                { name: 'Download', url: '/download' },
                 { name: 'Changelog', url: '/changelog' }
               ].map((item) => (
                 <li key={item.name}>

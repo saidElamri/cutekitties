@@ -5,10 +5,14 @@ import { LandingPage } from './pages/LandingPage';
 import { Dashboard } from './pages/Dashboard';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
+
 import { AboutPage } from './pages/AboutPage';
 import { CareersPage } from './pages/CareersPage';
 import { BlogPage } from './pages/BlogPage';
 import { ChangelogPage } from './pages/ChangelogPage';
+import { FeaturesPage } from './pages/FeaturesPage';
+import { PricingPage } from './pages/PricingPage';
+import { DownloadPage } from './pages/DownloadPage';
 import { CursorKitten } from './components/CursorKitten';
 import { FloatingPaws } from './components/FloatingPaws';
 
@@ -46,6 +50,9 @@ function AppRoutes() {
         <Route path="/careers" element={<CareersPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/changelog" element={<ChangelogPage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/download" element={<DownloadPage />} />
       </Routes>
     </AnimatePresence>
   );
