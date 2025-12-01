@@ -48,7 +48,7 @@ export const AuthSection: React.FC = () => {
             </button>
           </div>
 
-          <form onSubmit={(e) => {
+          <form onSubmit={async (e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
             const email = formData.get('email') as string;
@@ -56,12 +56,16 @@ export const AuthSection: React.FC = () => {
             const name = formData.get('name') as string;
             
             if (email && password) {
+              let success = false;
               if (isLogin) {
-                login(email, password);
+                success = await login(email, password);
               } else {
-                signup(name, email, password);
+                success = await signup(name, email, password);
               }
-              navigate('/dashboard');
+              
+              if (success) {
+                navigate('/dashboard');
+              }
             }
           }} className="space-y-4">
             <AnimatePresence mode="wait">

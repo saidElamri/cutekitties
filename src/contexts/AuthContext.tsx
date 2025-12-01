@@ -14,8 +14,8 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password?: string) => Promise<void>;
-  signup: (name: string, email: string, password?: string) => Promise<void>;
+  login: (email: string, password?: string) => Promise<boolean>;
+  signup: (name: string, email: string, password?: string) => Promise<boolean>;
   logout: () => Promise<void>;
   updateProfile: (name: string, avatar: string) => Promise<void>;
   isAuthenticated: boolean;
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const login = async (email: string, password?: string) => {
+  const login = async (email: string, password?: string): Promise<boolean> => {
     try {
       if (password) {
         const { error } = await supabase.auth.signInWithPassword({
@@ -84,6 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
         if (error) throw error;
         showToast.success('Welcome back! 🐱');
+        return true;
       } else {
         const { error } = await supabase.auth.signInWithOtp({
           email,
@@ -93,17 +94,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
         if (error) throw error;
         showToast.success('Magic link sent! Check your email 📧');
+        return false; // Don't redirect for magic link, user needs to check email
       }
     } catch (error: any) {
       showToast.error(error.message);
+      return false;
     }
   };
 
-  const signup = async (name: string, email: string, password?: string) => {
+  const signup = async (name: string, email: string, password?: string): Promise<boolean> => {
     try {
       const { error } = await supabase.auth.signUp({
         email,
-        password: password || 'temporary-password-placeholder', // Fallback or handle logic better
+        password: password || 'temporary-password-placeholder',
         options: {
           data: {
             name,
@@ -112,8 +115,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       if (error) throw error;
       showToast.success('Account created! Please check your email to verify. 📧');
+      return true; // Can redirect or stay, usually stay for verification
     } catch (error: any) {
       showToast.error(error.message);
+      return false;
     }
   };
 
