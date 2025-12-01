@@ -55,9 +55,13 @@ export const Profile = () => {
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <motion.div 
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-32 h-32 rounded-full bg-kitty-pink/20 flex items-center justify-center text-6xl border-4 border-kitty-pink"
+                  className="w-32 h-32 rounded-full bg-kitty-pink/20 flex items-center justify-center text-6xl border-4 border-kitty-pink overflow-hidden"
                 >
-                  {user?.avatar}
+                  {user?.avatar.startsWith('http') ? (
+                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    user?.avatar
+                  )}
                 </motion.div>
                 <div className="flex-1 text-center md:text-left">
                   <h1 className="text-3xl font-bold text-kitty-text dark:text-white mb-2">{user?.name}</h1>

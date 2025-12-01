@@ -63,8 +63,12 @@ export const Navbar = () => {
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <Link to="/profile">
-              <div className="w-8 h-8 rounded-full bg-kitty-pink/20 flex items-center justify-center text-lg border-2 border-transparent hover:border-kitty-pink transition-colors">
-                {user.avatar}
+              <div className="w-8 h-8 rounded-full bg-kitty-pink/20 flex items-center justify-center text-lg border-2 border-transparent hover:border-kitty-pink transition-colors overflow-hidden">
+                {user.avatar.startsWith('http') ? (
+                  <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  user.avatar
+                )}
               </div>
             </Link>
           </div>
