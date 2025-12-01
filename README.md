@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# 🐱 Cute Kitties Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive landing page themed around adorable cats. Built with React, Vite, Tailwind CSS, and Framer Motion.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Hero Section** - Eye-catching headline with animated kitten imagery
+- **Authentication** - Modern login/signup forms with social login options
+- **Features Cards** - 4 kitty-themed feature cards with hover animations
+- **Testimonials** - Fun cat testimonials with avatars and ratings
+- **Responsive Design** - Fully responsive across mobile, tablet, and desktop
+- **Smooth Animations** - Powered by Framer Motion for delightful interactions
 
-## React Compiler
+## 🎨 Design
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Colors**: Soft pastel palette (pink, cream, mint, blue)
+- **Typography**: Quicksand and Nunito fonts
+- **Style**: Rounded corners, glassmorphism effects, and playful micro-interactions
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 16+ 
+- npm or yarn
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Clone the repository
+git clone https://github.com/saidElamri/cutekitties.git
+cd cutekitties
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Build for Production
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+npm run preview
 ```
+
+## 🛠️ Tech Stack
+
+- **React 19** - UI library
+- **Vite** - Build tool and dev server
+- **Tailwind CSS 3** - Utility-first CSS framework
+- **Framer Motion** - Animation library
+- **Lucide React** - Icon library
+- **TypeScript** - Type safety
+
+## 📁 Project Structure
+
+```
+src/
+├── components/     # Reusable UI components (Button, Input, Card)
+├── sections/       # Page sections (Hero, Auth, Features, etc.)
+├── App.tsx         # Main app component
+└── index.css       # Global styles and Tailwind config
+```
+
+## 🎯 Components
+
+- `Button` - Customizable button with variants (primary, secondary, outline)
+- `Input` - Form input with validation states
+- `Card` - Container with hover effects
+- `Navbar` - Fixed navigation bar
+- `HeroSection` - Landing hero with CTA
+- `AuthSection` - Login/Signup forms
+- `FeaturesSection` - Feature cards grid
+- `TestimonialsSection` - Customer testimonials
+- `Footer` - Site footer with links
+
+## 📝 License
+
+MIT License - feel free to use this project for learning or personal projects!
+
+## 🐾 Made with ❤️ and Purrs
