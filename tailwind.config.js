@@ -9,11 +9,11 @@ export default {
     extend: {
       colors: {
         kitty: {
-          pink: '#FFB7B2',
-          cream: '#FFF2E2',
-          mint: '#E2F0CB',
-          blue: '#C7CEEA',
-          text: '#4A4A4A',
+          pink: 'var(--kitty-primary)',
+          cream: '#FFF5F7',
+          mint: '#D1FAE5',
+          blue: '#DBEAFE',
+          text: '#4B5563',
         }
       },
       fontFamily: {

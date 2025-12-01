@@ -1,100 +1,72 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Cat, Menu, Moon, Sun } from 'lucide-react';
-import { Button } from '../components/Button';
-import { useTheme } from '../contexts/ThemeContext';
+import { motion } from 'framer-motion';
+import { LayoutDashboard, User, Settings, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { InstallPwa } from '../components/InstallPwa';
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
+  const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  const isActive = (path: string) => location.pathname === path;
+  if (!user) return null;
+
+  const links = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/profile', icon: User, label: 'Profile' },
+    { path: '/settings', icon: Settings, label: 'Settings' },
+  ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-kitty-cream dark:border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-kitty-pink p-2 rounded-xl text-white">
-              <Cat size={24} />
-            </div>
-            <span className="text-2xl font-bold text-kitty-text dark:text-white tracking-tight">
-              Purrfect<span className="text-kitty-pink">App</span>
-            </span>
-          </Link>
-          
-          <div className="hidden md:flex items-center gap-6">
-            {isAuthenticated ? (
-              <>
-                <Link 
-                  to="/dashboard" 
-                  className={`font-semibold transition-colors ${
-                    isActive('/dashboard') 
-                      ? 'text-kitty-pink' 
-                      : 'text-kitty-text dark:text-gray-300 hover:text-kitty-pink'
+    <nav className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 z-50">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link to="/dashboard" className="flex items-center gap-2">
+          <span className="text-2xl">🐱</span>
+          <span className="font-bold text-xl text-kitty-text dark:text-white hidden md:block">Purrfect</span>
+        </Link>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl">
+            {links.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`relative px-4 py-2 rounded-lg transition-colors ${
+                    isActive ? 'text-kitty-pink' : 'text-gray-500 dark:text-gray-400 hover:text-kitty-text dark:hover:text-white'
                   }`}
                 >
-                  Dashboard
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-indicator"
+                      className="absolute inset-0 bg-white dark:bg-gray-600 rounded-lg shadow-sm"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-2 font-medium">
+                    <link.icon size={18} />
+                    <span className="hidden md:block">{link.label}</span>
+                  </span>
                 </Link>
-                <Link 
-                  to="/profile" 
-                  className={`font-semibold transition-colors ${
-                    isActive('/profile') 
-                      ? 'text-kitty-pink' 
-                      : 'text-kitty-text dark:text-gray-300 hover:text-kitty-pink'
-                  }`}
-                >
-                  Profile
-                </Link>
-                <Link 
-                  to="/settings" 
-                  className={`font-semibold transition-colors ${
-                    isActive('/settings') 
-                      ? 'text-kitty-pink' 
-                      : 'text-kitty-text dark:text-gray-300 hover:text-kitty-pink'
-                  }`}
-                >
-                  Settings
-                </Link>
-                <Link to="/profile" className="flex items-center gap-2">
-                  <img 
-                    src={user?.avatar} 
-                    alt={user?.name} 
-                    className="w-10 h-10 rounded-full border-2 border-kitty-pink"
-                  />
-                </Link>
-              </>
-            ) : (
-              <>
-                <a href="#features" className="text-kitty-text dark:text-gray-300 font-semibold hover:text-kitty-pink transition-colors">Features</a>
-                <a href="#testimonials" className="text-kitty-text dark:text-gray-300 font-semibold hover:text-kitty-pink transition-colors">Stories</a>
-                <a href="#about" className="text-kitty-text dark:text-gray-300 font-semibold hover:text-kitty-pink transition-colors">About</a>
-              </>
-            )}
-            
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-kitty-cream dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-gray-600" />}
-            </button>
-            
-            {!isAuthenticated && <Button size="sm">Get Started</Button>}
+              );
+            })}
           </div>
 
-          <div className="md:hidden flex items-center gap-2">
+          <div className="flex items-center gap-2 border-l border-gray-200 dark:border-gray-700 pl-4">
+            <InstallPwa />
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-kitty-cream dark:hover:bg-gray-800"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-gray-500 dark:text-gray-400"
             >
-              {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} />}
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <Button variant="secondary" size="sm">
-              <Menu size={20} />
-            </Button>
+            <Link to="/profile">
+              <div className="w-8 h-8 rounded-full bg-kitty-pink/20 flex items-center justify-center text-lg border-2 border-transparent hover:border-kitty-pink transition-colors">
+                {user.avatar}
+              </div>
+            </Link>
           </div>
         </div>
       </div>

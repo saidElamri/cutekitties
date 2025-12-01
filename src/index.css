@@ -1,12 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --kitty-primary: #F472B6; /* Default Pink */
+}
+
+[data-theme="blue"] { --kitty-primary: #60A5FA; }
+[data-theme="green"] { --kitty-primary: #34D399; }
+[data-theme="purple"] { --kitty-primary: #A78BFA; }
+[data-theme="orange"] { --kitty-primary: #FB923C; }
+
 @layer base {
   body {
-    @apply font-sans text-kitty-text bg-kitty-cream antialiased;
+    @apply font-sans antialiased text-gray-900 bg-gray-50;
   }
 }
 

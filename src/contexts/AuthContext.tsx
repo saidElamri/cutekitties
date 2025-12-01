@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -6,49 +6,63 @@ interface User {
   email: string;
   avatar: string;
   whiskerPoints: number;
+  tasksCompleted: number;
+  streak: number;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (name: string, email: string) => void;
   logout: () => void;
+  updateProfile: (name: string, avatar: string) => void;
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('kitty-user');
-    return saved ? JSON.parse(saved) : null;
-  });
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = async (email: string, _password: string) => {
-    // Mock login - in production, this would call an API
-    const mockUser: User = {
+  useEffect(() => {
+    const storedUser = localStorage.getItem('kitty-user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const login = (name: string, email: string) => {
+    const newUser = {
       id: '1',
-      name: 'Whiskers McGee',
+      name,
       email,
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=whiskers',
-      whiskerPoints: 420
+      avatar: '🐱',
+      whiskerPoints: 150,
+      tasksCompleted: 42,
+      streak: 5
     };
-    
-    setUser(mockUser);
-    localStorage.setItem('kitty-user', JSON.stringify(mockUser));
+    setUser(newUser);
+    setIsAuthenticated(true);
+    localStorage.setItem('kitty-user', JSON.stringify(newUser));
   };
 
   const logout = () => {
     setUser(null);
+    setIsAuthenticated(false);
     localStorage.removeItem('kitty-user');
   };
 
+  const updateProfile = (name: string, avatar: string) => {
+    if (user) {
+      const updatedUser = { ...user, name, avatar };
+      setUser(updatedUser);
+      localStorage.setItem('kitty-user', JSON.stringify(updatedUser));
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      logout, 
-      isAuthenticated: !!user 
-    }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

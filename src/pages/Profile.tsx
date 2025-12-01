@@ -3,154 +3,178 @@ import { useAuth } from '../contexts/AuthContext';
 import { Navbar } from '../sections/Navbar';
 import { Footer } from '../sections/Footer';
 import { Card } from '../components/Card';
-import { Award, Zap, CheckCircle2, Star } from 'lucide-react';
+import { Trophy, Star, Target, Calendar, Edit2, Download, PieChart as PieIcon, Activity, CheckCircle2, Zap, Flame } from 'lucide-react';
+import { Button } from '../components/Button';
+import { PageTransition } from '../components/PageTransition';
+import { Badge } from '../components/Badge';
+import { EditProfileModal } from '../components/EditProfileModal';
+import { useState } from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
 
 export const Profile = () => {
   const { user } = useAuth();
-
-  const badges = [
-    { name: 'Early Bird', icon: '🌅', earned: true },
-    { name: 'Task Master', icon: '✅', earned: true },
-    { name: 'Zen Cat', icon: '🧘', earned: false },
-    { name: 'Social Butterfly', icon: '🦋', earned: false },
-  ];
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const stats = [
-    { label: 'Tasks Completed', value: 127, icon: CheckCircle2 },
-    { label: 'Whisker Points', value: user?.whiskerPoints || 0, icon: Zap },
-    { label: 'Streak Days', value: 14, icon: Star },
-    { label: 'Badges Earned', value: 2, icon: Award },
+    { label: 'Tasks Completed', value: user?.tasksCompleted || 0, icon: <CheckCircle2 size={24} />, color: 'text-green-500' },
+    { label: 'Whisker Points', value: user?.whiskerPoints || 0, icon: <Zap size={24} />, color: 'text-yellow-500' },
+    { label: 'Current Streak', value: `${user?.streak || 0} Days`, icon: <Flame size={24} />, color: 'text-orange-500' },
+  ];
+
+  const badges = [
+    { icon: <Star size={24} />, title: 'Early Bird', description: 'Complete 5 tasks before 9AM', isLocked: false },
+    { icon: <Target size={24} />, title: 'Task Master', description: 'Complete 100 tasks total', isLocked: false },
+    { icon: <Trophy size={24} />, title: 'Streak Keeper', description: 'Maintain a 7-day streak', isLocked: true },
+    { icon: <Calendar size={24} />, title: 'Planner', description: 'Schedule tasks for next week', isLocked: true },
+  ];
+
+  const pieData = [
+    { name: 'Work', value: 12, color: '#60A5FA' },
+    { name: 'Personal', value: 18, color: '#34D399' },
+    { name: 'Fun', value: 8, color: '#F472B6' },
+  ];
+
+  const areaData = [
+    { name: 'Mon', tasks: 4 },
+    { name: 'Tue', tasks: 6 },
+    { name: 'Wed', tasks: 3 },
+    { name: 'Thu', tasks: 8 },
+    { name: 'Fri', tasks: 5 },
+    { name: 'Sat', tasks: 2 },
+    { name: 'Sun', tasks: 4 },
   ];
 
   return (
     <div className="min-h-screen bg-kitty-cream dark:bg-gray-900">
       <Navbar />
       <main className="pt-24 pb-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Profile Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Card className="text-center dark:bg-gray-800">
-              <div className="flex flex-col items-center">
-                <motion.div
+        <PageTransition>
+          <div className="max-w-4xl mx-auto space-y-8">
+            {/* Profile Header */}
+            <Card className="dark:bg-gray-800">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <motion.div 
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-32 h-32 rounded-full overflow-hidden border-4 border-kitty-pink mb-4"
+                  className="w-32 h-32 rounded-full bg-kitty-pink/20 flex items-center justify-center text-6xl border-4 border-kitty-pink"
                 >
-                  <img src={user?.avatar} alt={user?.name} className="w-full h-full object-cover" />
+                  {user?.avatar}
                 </motion.div>
-                <h1 className="text-3xl font-bold text-kitty-text dark:text-white mb-2">
-                  {user?.name}
-                </h1>
-                <p className="text-gray-500 dark:text-gray-400 mb-4">{user?.email}</p>
-                <div className="flex gap-2">
-                  <span className="px-4 py-2 bg-kitty-pink text-white rounded-full text-sm font-bold">
-                    Level 5 Cat
-                  </span>
-                  <span className="px-4 py-2 bg-kitty-mint text-kitty-text rounded-full text-sm font-bold">
-                    Pro Member
-                  </span>
+                <div className="flex-1 text-center md:text-left">
+                  <h1 className="text-3xl font-bold text-kitty-text dark:text-white mb-2">{user?.name}</h1>
+                  <p className="text-gray-500 dark:text-gray-400 mb-4">{user?.email}</p>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                    <Button onClick={() => setIsEditModalOpen(true)} size="sm" variant="outline" className="gap-2">
+                      <Edit2 size={16} /> Edit Profile
+                    </Button>
+                    <Button size="sm" variant="secondary" className="gap-2">
+                      <Download size={16} /> Export Data
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
-          </motion.div>
 
-          {/* Stats Grid */}
-          <div className="grid md:grid-cols-4 gap-4 mt-8">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 + i * 0.1 }}
-              >
-                <Card className="text-center dark:bg-gray-800">
-                  <stat.icon className="w-8 h-8 mx-auto mb-2 text-kitty-pink" />
-                  <div className="text-2xl font-bold text-kitty-text dark:text-white mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {stat.label}
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {stats.map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Card className="dark:bg-gray-800 flex items-center gap-4">
+                    <div className={`p-3 rounded-full bg-gray-100 dark:bg-gray-700 ${stat.color}`}>
+                      {stat.icon}
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
+                      <p className="text-xl font-bold text-kitty-text dark:text-white">{stat.value}</p>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
 
-          {/* Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-8"
-          >
+            {/* Charts Section */}
+            <div className="grid md:grid-cols-2 gap-8">
+              <Card className="dark:bg-gray-800">
+                <h3 className="text-lg font-bold text-kitty-text dark:text-white mb-6 flex items-center gap-2">
+                  <PieIcon size={20} className="text-kitty-pink" /> Task Distribution
+                </h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        paddingAngle={5}
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="flex justify-center gap-4 mt-4">
+                  {pieData.map((entry) => (
+                    <div key={entry.name} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
+                      {entry.name}
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              <Card className="dark:bg-gray-800">
+                <h3 className="text-lg font-bold text-kitty-text dark:text-white mb-6 flex items-center gap-2">
+                  <Activity size={20} className="text-blue-500" /> Activity Trend
+                </h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={areaData}>
+                      <defs>
+                        <linearGradient id="colorTasks" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#F472B6" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#F472B6" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} dy={10} />
+                      <YAxis hide />
+                      <Tooltip 
+                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                      />
+                      <Area type="monotone" dataKey="tasks" stroke="#F472B6" fillOpacity={1} fill="url(#colorTasks)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </Card>
+            </div>
+
+            {/* Badges Section */}
             <Card className="dark:bg-gray-800">
-              <h2 className="text-2xl font-bold text-kitty-text dark:text-white mb-6">
-                Badges Collection
-              </h2>
+              <h3 className="text-xl font-bold text-kitty-text dark:text-white mb-6 flex items-center gap-2">
+                <Trophy size={24} className="text-yellow-500" /> Achievements
+              </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {badges.map((badge, i) => (
-                  <motion.div
-                    key={badge.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + i * 0.1 }}
-                    whileHover={{ scale: 1.05 }}
-                    className={`p-6 rounded-2xl text-center transition-all ${
-                      badge.earned
-                        ? 'bg-gradient-to-br from-kitty-pink to-red-300 text-white shadow-lg'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-400 opacity-50'
-                    }`}
-                  >
-                    <div className="text-4xl mb-2">{badge.icon}</div>
-                    <div className="text-sm font-bold">{badge.name}</div>
-                  </motion.div>
+                  <Badge key={i} {...badge} />
                 ))}
               </div>
             </Card>
-          </motion.div>
-
-          {/* Activity Timeline */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            className="mt-8"
-          >
-            <Card className="dark:bg-gray-800">
-              <h2 className="text-2xl font-bold text-kitty-text dark:text-white mb-6">
-                Recent Activity
-              </h2>
-              <div className="space-y-4">
-                {[
-                  { action: 'Completed 5 tasks', time: '2 hours ago', icon: '✅' },
-                  { action: 'Earned "Early Bird" badge', time: '1 day ago', icon: '🏆' },
-                  { action: 'Reached 400 Whisker Points', time: '3 days ago', icon: '⚡' },
-                ].map((activity, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1 + i * 0.1 }}
-                    className="flex items-center gap-4 p-4 bg-kitty-cream dark:bg-gray-700 rounded-xl"
-                  >
-                    <span className="text-2xl">{activity.icon}</span>
-                    <div className="flex-1">
-                      <p className="font-semibold text-kitty-text dark:text-white">
-                        {activity.action}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {activity.time}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-        </div>
+          </div>
+        </PageTransition>
       </main>
+
+      <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
       <Footer />
     </div>
   );

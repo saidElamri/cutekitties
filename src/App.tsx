@@ -13,41 +13,52 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return isAuthenticated ? <>{children}</> : <Navigate to="/" replace />;
 };
 
+import { AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
+
 function AppRoutes() {
+  const location = useLocation();
+  
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/dashboard" element={
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      } />
-      <Route path="/profile" element={
-        <ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>
-      } />
-      <Route path="/settings" element={
-        <ProtectedRoute>
-          <Settings />
-        </ProtectedRoute>
-      } />
-    </Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        } />
+      </Routes>
+    </AnimatePresence>
   );
 }
+
+import { SettingsProvider } from './contexts/SettingsContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <div className="min-h-screen bg-kitty-cream dark:bg-gray-900 transition-colors duration-300 selection:bg-kitty-pink selection:text-white">
-            <CursorKitten />
-            <FloatingPaws />
-            <AppRoutes />
-          </div>
-        </AuthProvider>
-      </ThemeProvider>
+      <SettingsProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <div className="min-h-screen bg-kitty-cream dark:bg-gray-900 transition-colors duration-300 selection:bg-kitty-pink selection:text-white">
+              <CursorKitten />
+              <FloatingPaws />
+              <AppRoutes />
+            </div>
+          </AuthProvider>
+        </ThemeProvider>
+      </SettingsProvider>
     </BrowserRouter>
   );
 }
