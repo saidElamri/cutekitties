@@ -114,15 +114,11 @@ export const AuthSection: React.FC = () => {
             <Input
               placeholder="name@example.com"
               type="email"
-              {...currentForm.register('email')}
-              error={currentForm.formState.errors.email?.message}
             />
             
             <Input
               placeholder="••••••••"
               type="password"
-              {...currentForm.register('password')}
-              error={currentForm.formState.errors.password?.message}
             />
 
             <AnimatePresence mode="wait">
