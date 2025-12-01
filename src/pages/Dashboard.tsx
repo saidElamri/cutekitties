@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, CheckCircle2, Circle, Calendar, Sparkles } from 'lucide-react';
+import { Plus, Trash2, CheckCircle2, Circle, Calendar, Sparkles, Share2 } from 'lucide-react';
 import { Navbar } from '../sections/Navbar';
 import { Footer } from '../sections/Footer';
 import { Card } from '../components/Card';
@@ -163,9 +163,28 @@ export const Dashboard = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-kitty-text dark:text-white">My Tasks</h2>
-                <Button onClick={() => setIsAddModalOpen(true)} size="sm" className="gap-2">
-                  <Plus size={18} /> Add Task
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={() => {
+                      const pendingTasks = tasks.filter(t => !t.completed);
+                      if (pendingTasks.length > 0) {
+                        const randomTask = pendingTasks[Math.floor(Math.random() * pendingTasks.length)];
+                        showToast.success(`✨ Magic Suggestion: ${randomTask.title}`);
+                        playSound('pop');
+                      } else {
+                        showToast.success('All caught up! 🎉');
+                      }
+                    }}
+                    size="sm" 
+                    variant="secondary"
+                    className="gap-2"
+                  >
+                    <Sparkles size={18} /> Magic Suggest
+                  </Button>
+                  <Button onClick={() => setIsAddModalOpen(true)} size="sm" className="gap-2">
+                    <Plus size={18} /> Add Task
+                  </Button>
+                </div>
               </div>
 
               {loading ? (
@@ -216,6 +235,24 @@ export const Dashboard = () => {
                             className="p-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
                           >
                             <Trash2 size={18} />
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              if (navigator.share) {
+                                navigator.share({
+                                  title: 'Purrfect Task',
+                                  text: `Check out this task: ${task.title}`,
+                                  url: window.location.href,
+                                });
+                              } else {
+                                navigator.clipboard.writeText(`Task: ${task.title}`);
+                                showToast.success('Task copied to clipboard! 📋');
+                              }
+                            }}
+                            className="p-2 text-gray-400 hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-all"
+                          >
+                            <Share2 size={18} />
                           </button>
                         </Card>
                       </motion.div>

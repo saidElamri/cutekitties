@@ -28,7 +28,26 @@ export const DownloadPage = () => {
             </p>
             
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-12">
-              <Button size="lg" className="gap-2 shadow-lg shadow-kitty-pink/30 w-full sm:w-auto">
+              <Button 
+                size="lg" 
+                className="gap-2 shadow-lg shadow-kitty-pink/30 w-full sm:w-auto"
+                onClick={() => {
+                  // @ts-ignore
+                  const promptEvent = window.deferredPrompt;
+                  if (promptEvent) {
+                    promptEvent.prompt();
+                    promptEvent.userChoice.then((choiceResult: any) => {
+                      if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                      }
+                      // @ts-ignore
+                      window.deferredPrompt = null;
+                    });
+                  } else {
+                    alert('App is already installed or not supported in this browser!');
+                  }
+                }}
+              >
                 <Download size={20} />
                 Install App
               </Button>

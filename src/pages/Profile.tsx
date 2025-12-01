@@ -9,7 +9,8 @@ import { PageTransition } from '../components/PageTransition';
 import { Badge } from '../components/Badge';
 import { EditProfileModal } from '../components/EditProfileModal';
 import { useState } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { AnalyticsChart } from '../components/AnalyticsChart';
 
 export const Profile = () => {
   const { user } = useAuth();
@@ -34,15 +35,7 @@ export const Profile = () => {
     { name: 'Fun', value: 8, color: '#F472B6' },
   ];
 
-  const areaData = [
-    { name: 'Mon', tasks: 4 },
-    { name: 'Tue', tasks: 6 },
-    { name: 'Wed', tasks: 3 },
-    { name: 'Thu', tasks: 8 },
-    { name: 'Fri', tasks: 5 },
-    { name: 'Sat', tasks: 2 },
-    { name: 'Sun', tasks: 4 },
-  ];
+
 
   return (
     <div className="min-h-screen bg-kitty-cream dark:bg-gray-900">
@@ -142,24 +135,7 @@ export const Profile = () => {
                 <h3 className="text-lg font-bold text-kitty-text dark:text-white mb-6 flex items-center gap-2">
                   <Activity size={20} className="text-blue-500" /> Activity Trend
                 </h3>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={areaData}>
-                      <defs>
-                        <linearGradient id="colorTasks" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#F472B6" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#F472B6" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} dy={10} />
-                      <YAxis hide />
-                      <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                      />
-                      <Area type="monotone" dataKey="tasks" stroke="#F472B6" fillOpacity={1} fill="url(#colorTasks)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
+                <AnalyticsChart />
               </Card>
             </div>
 
