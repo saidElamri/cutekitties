@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 export const AuthSection: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const { login } = useAuth();
+  const { login, signup } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -53,9 +53,14 @@ export const AuthSection: React.FC = () => {
             const formData = new FormData(e.currentTarget);
             const email = formData.get('email') as string;
             const password = formData.get('password') as string;
+            const name = formData.get('name') as string;
             
             if (email && password) {
-              login(email, password);
+              if (isLogin) {
+                login(email, password);
+              } else {
+                signup(name, email, password);
+              }
               navigate('/dashboard');
             }
           }} className="space-y-4">
