@@ -16,6 +16,7 @@ interface AuthContextType {
   user: User | null;
   login: (email: string, password?: string) => Promise<boolean>;
   signup: (name: string, email: string, password?: string) => Promise<boolean>;
+  loginWithOAuth: (provider: 'google' | 'github') => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (name: string, avatar: string) => Promise<void>;
   isAuthenticated: boolean;
@@ -122,6 +123,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const loginWithOAuth = async (provider: 'google' | 'github') => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+      if (error) throw error;
+    } catch (error: any) {
+      showToast.error(error.message);
+    }
+  };
+
   const logout = async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -147,7 +162,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, signup, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, signup, loginWithOAuth, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
