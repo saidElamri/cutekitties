@@ -5,6 +5,8 @@ import { LandingPage } from './pages/LandingPage';
 import { Dashboard } from './pages/Dashboard';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
+import { CursorKitten } from './components/CursorKitten';
+import { FloatingPaws } from './components/FloatingPaws';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
@@ -40,6 +42,8 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <div className="min-h-screen bg-kitty-cream dark:bg-gray-900 transition-colors duration-300 selection:bg-kitty-pink selection:text-white">
+            <CursorKitten />
+            <FloatingPaws />
             <AppRoutes />
           </div>
         </AuthProvider>
