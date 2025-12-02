@@ -20,6 +20,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   updateProfile: (name: string, avatar: string) => Promise<void>;
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,6 +28,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check active session
@@ -34,6 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (session?.user) {
         fetchProfile(session.user.id, session.user.email!);
       }
+      setLoading(false);
     });
 
     // Listen for auth changes
@@ -44,6 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         setIsAuthenticated(false);
       }
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -162,7 +166,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, signup, loginWithOAuth, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, login, signup, loginWithOAuth, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
