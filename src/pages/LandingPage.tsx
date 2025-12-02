@@ -7,9 +7,9 @@ import { Footer } from '../sections/Footer';
 
 export const LandingPage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-grow pt-4 px-4">
         <HeroSection />
         <FeaturesSection />
         <AuthSection />

@@ -144,12 +144,12 @@ export const Dashboard = () => {
                 <Sparkles size={20} className="text-yellow-400" />
                 How are you feline today?
               </h3>
-              <div className="flex gap-4">
+              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide -mx-2 px-2">
                 {moods.map((mood) => (
                   <button
                     key={mood}
                     onClick={() => setSelectedMood(mood)}
-                    className={`text-4xl p-2 rounded-2xl transition-all hover:scale-110 ${
+                    className={`text-4xl p-2 rounded-2xl transition-all hover:scale-110 flex-shrink-0 ${
                       selectedMood === mood ? 'bg-kitty-pink/20 ring-2 ring-kitty-pink' : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                     }`}
                   >
@@ -161,9 +161,9 @@ export const Dashboard = () => {
 
             {/* Tasks List */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <h2 className="text-xl font-bold text-kitty-text dark:text-white">My Tasks</h2>
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full sm:w-auto">
                   <Button 
                     onClick={() => {
                       const pendingTasks = tasks.filter(t => !t.completed);
@@ -177,12 +177,12 @@ export const Dashboard = () => {
                     }}
                     size="sm" 
                     variant="secondary"
-                    className="gap-2"
+                    className="gap-2 flex-1 sm:flex-none"
                   >
-                    <Sparkles size={18} /> Magic Suggest
+                    <Sparkles size={18} /> <span className="truncate">Magic Suggest</span>
                   </Button>
-                  <Button onClick={() => setIsAddModalOpen(true)} size="sm" className="gap-2">
-                    <Plus size={18} /> Add Task
+                  <Button onClick={() => setIsAddModalOpen(true)} size="sm" className="gap-2 flex-1 sm:flex-none">
+                    <Plus size={18} /> <span className="whitespace-nowrap">Add Task</span>
                   </Button>
                 </div>
               </div>

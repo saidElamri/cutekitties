@@ -167,7 +167,7 @@ export const Settings = () => {
               <Shield size={24} className="text-green-500" /> Data Management
             </h2>
             
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button onClick={handleExportData} variant="outline" className="flex-1 gap-2">
                 <Download size={18} /> Export Data
               </Button>

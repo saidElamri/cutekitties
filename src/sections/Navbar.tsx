@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, User, Settings, Moon, Sun } from 'lucide-react';
+import { useState } from 'react';
+import { LayoutDashboard, User, Settings, Moon, Sun, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { InstallPwa } from '../components/InstallPwa';
@@ -9,6 +10,7 @@ export const Navbar = () => {
   const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = user ? [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -19,12 +21,14 @@ export const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-3 group">
+        {/* Logo */}
+        <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-3 group">
           <span className="text-3xl group-hover:scale-110 transition-transform">🐱</span>
           <span className="font-bold text-2xl bg-gradient-to-r from-kitty-pink to-purple-500 bg-clip-text text-transparent">Purrfect</span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        {/* Desktop navigation */}
+        <div className="hidden md:flex items-center gap-4">
           {user && (
             <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl">
               {links.map((link) => {
@@ -53,30 +57,53 @@ export const Navbar = () => {
               })}
             </div>
           )}
-
-          <div className="flex items-center gap-2 border-l border-gray-200 dark:border-gray-700 pl-4">
-            <InstallPwa />
-            <button
-              onClick={toggleTheme}
-              className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-all hover:scale-110 text-gray-500 dark:text-gray-400 hover:text-kitty-pink dark:hover:text-kitty-pink"
-            >
-              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            
-            {user && (
-              <Link to="/profile">
-                <div className="w-8 h-8 rounded-full bg-kitty-pink/20 flex items-center justify-center text-lg border-2 border-transparent hover:border-kitty-pink transition-colors overflow-hidden">
-                  {user.avatar.startsWith('http') ? (
-                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
-                  ) : (
-                    user.avatar
-                  )}
-                </div>
-              </Link>
-            )}
-          </div>
+          <InstallPwa />
+          <button
+            onClick={toggleTheme}
+            className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-all hover:scale-110 text-gray-500 dark:text-gray-400 hover:text-kitty-pink dark:hover:text-kitty-pink"
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
         </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      <motion.div
+        initial={{ height: 0 }}
+        animate={{ height: isMenuOpen ? 'auto' : 0 }}
+        className="md:hidden overflow-hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700"
+      >
+        <div className="px-6 py-4 flex flex-col gap-3">
+          {user && links.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <link.icon size={20} />
+              {link.label}
+            </Link>
+          ))}
+          <InstallPwa />
+          <button
+            onClick={toggleTheme}
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-kitty-pink dark:hover:text-kitty-pink"
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+        </div>
+      </motion.div>
     </nav>
   );
 };

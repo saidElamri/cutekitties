@@ -16,6 +16,7 @@ import { DownloadPage } from './pages/DownloadPage';
 import { ContactPage } from './pages/ContactPage';
 import { CursorKitten } from './components/CursorKitten';
 import { FloatingPaws } from './components/FloatingPaws';
+import { BottomNav } from './components/BottomNav';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
@@ -72,6 +73,7 @@ function App() {
               <CursorKitten />
               <FloatingPaws />
               <AppRoutes />
+              <BottomNav />
             </div>
           </AuthProvider>
         </ThemeProvider>
