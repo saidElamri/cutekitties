@@ -52,8 +52,8 @@ export const Settings = () => {
         
         // Reload to apply changes
         window.location.reload();
-      } catch (error) {
-        showToast.error('Invalid backup file 😕');
+      } catch {
+        showToast.error('Invalid backup file 😵');
       }
     };
     reader.readAsText(file);
@@ -105,7 +105,7 @@ export const Settings = () => {
                   {colors.map((c) => (
                     <button
                       key={c.name}
-                      onClick={() => setThemeColor(c.name as any)}
+                      onClick={() => setThemeColor(c.name as 'pink' | 'blue' | 'green' | 'purple' | 'orange')}
                       className={`w-10 h-10 rounded-full transition-transform hover:scale-110 ${
                         themeColor === c.name ? 'ring-4 ring-offset-2 ring-gray-200 dark:ring-gray-700 scale-110' : ''
                       }`}
@@ -149,7 +149,7 @@ export const Settings = () => {
                 </div>
                 <select
                   value={language}
-                  onChange={(e) => setLanguage(e.target.value as any)}
+                  onChange={(e) => setLanguage(e.target.value as 'en' | 'es' | 'fr' | 'ja')}
                   className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-kitty-text dark:text-white outline-none focus:border-kitty-pink"
                 >
                   <option value="en">English</option>

@@ -16,7 +16,7 @@ export const useSound = () => {
     
     // Let's use a simple oscillator for immediate feedback without assets
     try {
-      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContext = window.AudioContext || (window as unknown as { webkitAudioContext: typeof window.AudioContext }).webkitAudioContext;
       if (AudioContext) {
         const ctx = new AudioContext();
         const osc = ctx.createOscillator();

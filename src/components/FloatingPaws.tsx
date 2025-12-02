@@ -12,7 +12,7 @@ export const FloatingPaws = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    let pawId = 0;
+
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -20,7 +20,7 @@ export const FloatingPaws = () => {
       // Only create paws when scrolling down
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         const newPaw: Paw = {
-          id: pawId++,
+          id: Date.now() + Math.random(),
           x: Math.random() * window.innerWidth,
           y: currentScrollY + window.innerHeight / 2,
         };

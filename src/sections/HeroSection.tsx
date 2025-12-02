@@ -2,8 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/Button';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export const HeroSection: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <section className="pt-32 pb-20 px-4 min-h-screen flex items-center bg-gradient-to-b from-kitty-cream to-white overflow-hidden relative">
       {/* Background decorations */}
@@ -48,10 +53,14 @@ export const HeroSection: React.FC = () => {
               size="lg" 
               className="group shadow-lg shadow-kitty-pink/30 hover:shadow-xl hover:shadow-kitty-pink/40 hover:scale-105 transition-all"
               onClick={() => {
-                document.querySelector('#auth-section')?.scrollIntoView({ behavior: 'smooth' });
+                if (user) {
+                  navigate('/dashboard');
+                } else {
+                  document.querySelector('#auth-section')?.scrollIntoView({ behavior: 'smooth' });
+                }
               }}
             >
-              Start for Free 
+              {user ? 'Go to Dashboard' : 'Start for Free'} 
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
             </Button>
             <Button 

@@ -30,7 +30,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [user]);
+  }, [user]); // fetchTasks is stable or we will wrap it in useCallback next
 
   const fetchTasks = async () => {
     if (!user) return;
@@ -64,7 +64,7 @@ export const Dashboard = () => {
       playSound('pop');
       showToast.success('Task added! 📝');
       setIsAddModalOpen(false);
-    } catch (error: any) {
+    } catch {
       showToast.error('Failed to add task');
     }
   };
@@ -94,7 +94,7 @@ export const Dashboard = () => {
           colors: ['#F472B6', '#60A5FA', '#34D399']
         });
       }
-    } catch (error) {
+    } catch {
       showToast.error('Failed to update task');
     }
   };
@@ -111,7 +111,7 @@ export const Dashboard = () => {
       setTasks(tasks.filter(t => t.id !== id));
       playSound('delete');
       showToast.success('Task deleted! 🗑️');
-    } catch (error) {
+    } catch {
       showToast.error('Failed to delete task');
     }
   };

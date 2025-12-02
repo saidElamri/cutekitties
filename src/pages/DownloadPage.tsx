@@ -32,15 +32,15 @@ export const DownloadPage = () => {
                 size="lg" 
                 className="gap-2 shadow-lg shadow-kitty-pink/30 w-full sm:w-auto"
                 onClick={() => {
-                  // @ts-ignore
+                  // @ts-expect-error - deferredPrompt is not standard yet
                   const promptEvent = window.deferredPrompt;
                   if (promptEvent) {
                     promptEvent.prompt();
-                    promptEvent.userChoice.then((choiceResult: any) => {
+                    promptEvent.userChoice.then((choiceResult: { outcome: string }) => {
                       if (choiceResult.outcome === 'accepted') {
                         console.log('User accepted the install prompt');
                       }
-                      // @ts-ignore
+                      // @ts-expect-error - deferredPrompt is not standard yet
                       window.deferredPrompt = null;
                     });
                   } else {

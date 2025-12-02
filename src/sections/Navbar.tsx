@@ -57,6 +57,17 @@ export const Navbar = () => {
               })}
             </div>
           )}
+
+          
+          {!user && (
+            <button
+              onClick={() => document.querySelector('#auth-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-4 py-2 rounded-xl bg-kitty-pink text-white font-bold hover:bg-pink-600 transition-colors shadow-lg shadow-kitty-pink/20"
+            >
+              Log In
+            </button>
+          )}
+
           <InstallPwa />
           <button
             onClick={toggleTheme}

@@ -101,8 +101,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         showToast.success('Magic link sent! Check your email 📧');
         return false; // Don't redirect for magic link, user needs to check email
       }
-    } catch (error: any) {
-      showToast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        showToast.error(error.message);
+      } else {
+        showToast.error('An unexpected error occurred');
+      }
       return false;
     }
   };
@@ -121,8 +125,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
       showToast.success('Account created! Please check your email to verify. 📧');
       return true; // Can redirect or stay, usually stay for verification
-    } catch (error: any) {
-      showToast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        showToast.error(error.message);
+      } else {
+        showToast.error('An unexpected error occurred');
+      }
       return false;
     }
   };
@@ -136,8 +144,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
       });
       if (error) throw error;
-    } catch (error: any) {
-      showToast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        showToast.error(error.message);
+      } else {
+        showToast.error('An unexpected error occurred');
+      }
     }
   };
 
@@ -160,7 +172,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
 
       setUser({ ...user, name, avatar });
-    } catch (error: any) {
+    } catch {
       showToast.error('Failed to update profile');
     }
   };
@@ -172,6 +184,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error('useAuth must be used within AuthProvider');
